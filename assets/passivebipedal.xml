@@ -1,0 +1,406 @@
+ <mujoco model="bipedal">
+  <compiler angle="degree" coordinate="local" inertiafromgeom="true"/>
+  <default>
+    <joint armature="0.01" damping=".1" limited="true"/>
+    <geom conaffinity="0" condim="3" contype="1" density="1000" friction="2.5 0.1 0.1" rgba="0.8 0.6 .4 1"solimp="0.99 0.99 0.01"solref="0.01 1"/>
+  </default>
+  <option integrator="RK4" timestep="0.002"/>
+  <asset>
+        <texture type="skybox" builtin="gradient" rgb1=".4 .5 .6" rgb2="0 0 0" width="30" height="30"/>
+        <texture builtin="flat" height="1278" mark="cross" markrgb="1 1 1" name="texgeom" random="0.01" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" type="cube" width="127"/>
+        <texture builtin="checker" height="30" name="texplane" rgb1="0 0 0" rgb2="0.8 0.8 0.8" type="2d" width="30"/>
+        <material name="MatPlane" reflectance="0.274" shininess="1" specular="1" texrepeat="60 3" texture="texplane"/>
+        <material name="geom" texture="texgeom" texuniform="true"/>
+  </asset>
+  <worldbody>
+    <light cutoff="30" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1" pos="0 0 1.3" specular=".1 .1 .1"/>
+    <geom conaffinity="1" condim="3" name="floor" pos="20 0 0" rgba="0.8 0.9 0.8 1" size="20 1 40" type="plane" material="MatPlane"/>
+    
+    <body name="hip" pos="0 0 0.83">   
+      <camera name="track" mode="trackcom" pos="0 -2.8 -0.2" xyaxes="1 0 0 0 0 1"/>
+      <camera name="track2" mode="trackcom" pos="0 0 30" xyaxes="1 0 0 0 1 0"/>
+      <joint armature="0" axis="1 0 0" damping="0" limited="false" name="rootx" pos="0 0 0" type="slide"/>
+      <joint armature="0" axis="0 0 1" damping="0" limited="false" name="rootz" pos="0 0 0" type="slide"/>
+      <joint armature="0" axis="0 1 0" damping="0" limited="false" name="rooty" pos="0 0 0" stiffness="0" type="hinge"/>
+      <site name="s_hip" pos="0 0 0" size="0.005"/>
+      <geom friction="0.9" name="hip_geom"  pos="0 0 0"size="0.05"type="cylinder" mass="20" fromto='0 -0.15 0 0 0.15 0' rgba='0.5 0.5 0.5 1'/>
+      
+      
+      <body name="waste" pos="0 -0.2 0">
+        <joint axis="0 -1 0"  name="waste_joint" stiffness="25" damping="2"pos="0 0 0" range="-100 100" type="hinge"/>
+        <joint armature="0.01" axis="0 0 -1" damping="0" limited="true"range="-0.11 0.11" name="waste_z" pos="0 0 0" stiffness="0" type="slide"/>
+        <geom friction="0.9" pos="0 0 0" name="waste_geom" size="0.05" type="cylinder" mass="0.01" fromto='0 -0.05 0 0 0.05 0' />
+        <site name="s_waste" pos="0 0 0" size="0.005"/>
+        
+       
+        <body name='thigh' pos='0 0 0'>
+        <geom friction="0.9" pos="0 0 -0.2" name="thigh_geom" size="0.05 0.05 0.2 " type="box" mass="6" />
+        <site name="s_thigh" pos="0 0 -0.2" size="0.005"/>
+        
+        <body name="knee" pos="0 0 -0.4">
+        <geom friction="0.9" pos="0 0 0" name="knee_geom" size="0.001" type="sphere"mass="0.01"/>
+        <site name="s_knee" pos="0 0 0" size="0.005"/>
+        
+        <body name="tibia_point" pos="0 0 -0.2">
+        <geom friction="0.9" pos="0 0 0" name="tibia_point" size="0.001" type="sphere"mass="0.01"/>
+        <site name="s_tibia" pos="0 0 0" size="0.005"/>
+        <joint axis="0 0 -1" name="tibia_slide" pos="0 0 0" range="-0.05 0.05"  type="slide"/>
+        
+        <body name='tibia' pos='0 0 0'>
+        <geom friction="0.9" pos="0 0 0" name="tibia_geom" size="0.05 0.05 0.05 " type="box" mass="3" rgba='0.66 0.80 0.921 1'/>
+        
+        <body name="foot1"pos="-0.13300 0 -0.16436">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom1" size="0.01"mass="0.05"/>
+        <joint axis="0 0 -1" name="foot_slide" pos="0 0 0" range="-0.05 0.05"  type="slide"/>
+        <site name="s_foot" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot2"pos="0.01224 0 -0.00664">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom2" size="0.01"mass="0.05"/>
+        <site name="s32" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot3"pos="0.01257 0 -0.00600">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom3" size="0.01"mass="0.05"/>
+        <site name="s33" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot4"pos="0.01287 0 -0.00533">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom4" size="0.01"mass="0.05"/>
+        <site name="s34" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot5"pos="0.01313 0 -0.00465">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom5" size="0.01"mass="0.05"/>
+        <site name="s35" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot6"pos="0.01335 0 -0.00396">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom6" size="0.01"mass="0.05"/>
+        <site name="s36" pos="0 0 0" size="0.011"/>
+        
+        
+        <body name="foot7"pos="0.01354 0 -0.00325">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom7" size="0.01" mass="0.05"/>
+        <site name="s37" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot8"pos="0.01369 0 -0.00254">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom8" size="0.01" mass="0.05"/>
+        <site name="s38" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot9"pos="0.01381 0 -0.00182">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom9" size="0.01" mass="0.05"/>
+        <site name="s39" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot10"pos="0.01388 0 -0.00109">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom10" size="0.01" mass="0.05"/>
+        <site name="s310" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot11"pos="0.01392 0 -0.00036">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom11" size="0.01" mass="0.05"/>
+        <site name="s311" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot12"pos="0.01392 0 0.00036">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom12" size="0.01" mass="0.05"/>
+        <site name="s312" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot13"pos="0.01388 0 0.00109">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom13" size="0.01" mass="0.05"/>
+        <site name="s313" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot14"pos="0.01381 0 0.00182">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom14" size="0.01" mass="0.05"/>
+        <site name="s314" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot15"pos="0.01369 0 0.00254">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom15" size="0.01" mass="0.05"/>
+        <site name="s315" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot16"pos="0.01354 0 0.00325">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom16" size="0.01" mass="0.05"/>
+        <site name="s316" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot17"pos="0.01335 0 0.00396">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom17" size="0.01" mass="0.05"/>
+        <site name="s317" pos="0 0 0" size="0.011"/>
+       
+        <body name="foot18"pos="0.01313 0 0.00465">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom18" size="0.01" mass="0.05"/>
+        <site name="s318" pos="0 0 0" size="0.011"/>
+        
+        
+        <body name="foot19"pos="0.01287 0 0.00533">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom19" size="0.01"mass="0.05"/>
+        <site name="s319" pos="0 0 0" size="0.011"/>
+        
+        
+        <body name="foot20"pos="0.01257 0 0.00600">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom20" size="0.01"mass="0.05"/>
+        <site name="s320" pos="0 0 0" size="0.011"/>
+        
+        <body name="foot21"pos="0.01224 0 0.00664">
+        <geom friction="0.9" pos="0 0 0" name="foot_geom21" size="0.01"mass="0.05"/>
+        <site name="s321" pos="0 0 0" size="0.011"/>
+        
+        
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+
+      <body name="left_waste" pos="0 0.2 0">
+        <joint axis="0 -1 0" name="left_waste_joint" stiffness="25" damping="2" pos="0 0 0" range="-100 100" type="hinge"/>
+        <joint armature="0.01" axis="0 0 -1" damping="0" limited="true"range="-0.11 0.11" name="left_waste_z" pos="0 0 0" stiffness="0" type="slide"/>
+        <geom friction="0.9" pos="0 0 0" name="left_waste_geom" size="0.05" type="cylinder" mass="0.01" fromto='0 -0.05 0 0 0.05 0'/>
+        <site name="s_left_waste" pos="0 0 0" size="0.005"/>
+        
+        <body name='left_thigh' pos='0 0 0'>
+        <geom friction="0.9" pos="0 0 -0.2" name="left_thigh_geom" size="0.05 0.05 0.2" type="box" mass="6"/>
+        <site name="s_left_thigh" pos="0 0 -0.2" size="0.005"/>
+
+
+        <body name="left_knee" pos="0 0 -0.4">
+        <geom friction="0.9" pos="0 0 0" name="left_knee_geom" size="0.001" type="sphere"mass="0.01"/>
+        <site name="s_left_knee" pos="0 0 0" size="0.005"/>
+        
+        <body name="left_tibia_point" pos="0 0 -0.2">
+        <geom friction="0.9" pos="0 0 0" name="left_tibia_point" size="0.001" type="sphere"mass="0.01"/>
+        <site name="s_left_tibia" pos="0 0 0" size="0.005"/>
+        <joint axis="0 0 -1" name="left_tibia_slide" pos="0 0 0" range="-0.05 0.05"  type="slide"/>
+        
+        <body name='left_tibia' pos='0 0 0'>
+        <geom friction="0.9" pos="0 0 0" name="left_tibia_geom" size="0.05 0.05 0.05 " type="box" mass="3" rgba='0.66 0.80 0.921 1'/>
+        
+        <body name="left_foot1"pos="-0.133 0 -0.16436">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom1" size="0.01"mass="0.05"/>
+        <joint axis="0 0 -1" name="left_foot_slide" pos="0 0 0" range="-0.05 0.05"  type="slide"/>
+        <site name="s_left_foot" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot2"pos="0.01224 0 -0.00664">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom2" size="0.01"mass="0.05"/>
+        <site name="s62" pos="0 0 0" size="0.011"/>
+       
+        <body name="left_foot3"pos="0.01257 0 -0.00600">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom3" size="0.01"mass="0.05"/>
+        <site name="s63" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot4"pos="0.01287 0 -0.00533">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom4" size="0.01"mass="0.05"/>
+        <site name="s64" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot5"pos="0.01313 0 -0.00465">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom5" size="0.01"mass="0.05"/>
+        <site name="s65" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot6"pos="0.01335 0 -0.00396">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom6" size="0.01"mass="0.05"/>
+        <site name="s66" pos="0 0 0" size="0.011"/>
+        
+        
+        <body name="left_foot7"pos="0.01354 0 -0.00325">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom7" size="0.01" mass="0.05"/>
+        <site name="s67" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot8"pos="0.01369 0 -0.00254">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom8" size="0.01" mass="0.05"/>
+        <site name="s68" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot9"pos="0.01381 0 -0.00182">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom9" size="0.01" mass="0.05"/>
+        <site name="s69" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot10"pos="0.01388 0 -0.00109">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom10" size="0.01" mass="0.05"/>
+        <site name="s610" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot11"pos="0.01392 0 -0.00036">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom11" size="0.01" mass="0.05"/>
+        <site name="s611" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot12"pos="0.01392 0 0.00036">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom12" size="0.01" mass="0.05"/>
+        <site name="s612" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot13"pos="0.01388 0 0.00109">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom13" size="0.01" mass="0.05"/>
+        <site name="s613" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot14"pos="0.01381 0 0.00182">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom14" size="0.01" mass="0.05"/>
+        <site name="s614" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot15"pos="0.01369 0 0.00254">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom15" size="0.01" mass="0.05"/>
+        <site name="s615" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot16"pos="0.01354 0 0.00325">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom16" size="0.01" mass="0.05"/>
+        <site name="s616" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot17"pos="0.01335 0 0.00396">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom17" size="0.01" mass="0.05"/>
+        <site name="s617" pos="0 0 0" size="0.011"/>
+       
+        <body name="left_foot18"pos="0.01313 0 0.00465">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom18" size="0.01" mass="0.05"/>
+        <site name="s618" pos="0 0 0" size="0.011"/>
+        
+        
+        <body name="left_foot19"pos="0.01287 0 0.00533">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom19" size="0.01"mass="0.05"/>
+        <site name="s619" pos="0 0 0" size="0.011"/>
+        
+        
+        <body name="left_foot20"pos="0.01257 0 0.00600">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom20" size="0.01"mass="0.05"/>
+        <site name="s620" pos="0 0 0" size="0.011"/>
+        
+        <body name="left_foot21"pos="0.01224 0 0.00664">
+        <geom friction="0.9" pos="0 0 0" name="left_foot_geom21" size="0.01"mass="0.05"/>
+        <site name="s621" pos="0 0 0" size="0.011"/>
+
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+        </body>
+
+    </body>
+  </worldbody>
+  <sensor>
+    <actuatorfrc name="waste_F" actuator="waste_slide"/>
+    <actuatorfrc name="left_waste_F" actuator="left_waste_slide"/>
+    <tendonpos name="1_right_length" tendon="SF1"/>
+    <tendonpos name="1_left_length" tendon="SF2"/>
+    <tendonpos name="2_right_length" tendon="SF3"/>
+    <tendonpos name="2_left_length" tendon="SF4"/>
+    <tendonpos name="3_right_length" tendon="SF5"/>
+    <tendonpos name="3_left_length" tendon="SF6"/>
+    <tendonvel name='SF5_vel' tendon='SF5'/>
+    <tendonvel name='SF6_vel' tendon='SF6'/>
+    <touch name="r_touch1" site="s_foot"/>
+    <touch name="r_touch2" site="s32"/>
+    <touch name="r_touch3" site="s33"/>
+    <touch name="r_touch4" site="s34"/>
+    <touch name="r_touch5" site="s35"/>
+    <touch name="r_touch6" site="s36"/>
+    <touch name="r_touch7" site="s37"/>
+    <touch name="r_touch8" site="s38"/>
+    <touch name="r_touch9" site="s39"/>
+    <touch name="r_touch10" site="s310"/>
+    <touch name="r_touch11" site="s311"/>
+    <touch name="r_touch12" site="s312"/>
+    <touch name="r_touch13" site="s313"/>
+    <touch name="r_touch14" site="s314"/>
+    <touch name="r_touch15" site="s315"/>
+    <touch name="r_touch16" site="s316"/>
+    <touch name="r_touch17" site="s317"/>
+    <touch name="r_touch18" site="s318"/>
+    <touch name="r_touch19" site="s319"/>
+    <touch name="r_touch20" site="s320"/>
+    <touch name="r_touch21" site="s321"/>
+    <touch name="l_touch1" site="s_left_foot"/>
+    <touch name="l_touch2" site="s62"/>
+    <touch name="l_touch3" site="s63"/>
+    <touch name="l_touch4" site="s64"/>
+    <touch name="l_touch5" site="s65"/>
+    <touch name="l_touch6" site="s66"/>
+    <touch name="l_touch7" site="s67"/>
+    <touch name="l_touch8" site="s68"/>
+    <touch name="l_touch9" site="s69"/>
+    <touch name="l_touch10" site="s610"/>
+    <touch name="l_touch11" site="s611"/>
+    <touch name="l_touch12" site="s612"/>
+    <touch name="l_touch13" site="s613"/>
+    <touch name="l_touch14" site="s614"/>
+    <touch name="l_touch15" site="s615"/>
+    <touch name="l_touch16" site="s616"/>
+    <touch name="l_touch17" site="s617"/>
+    <touch name="l_touch18" site="s618"/>
+    <touch name="l_touch19" site="s619"/>
+    <touch name="l_touch20" site="s620"/>
+    <touch name="l_touch21" site="s621"/>
+    <jointvel name='waste_omega' joint='waste_joint'/>
+    <jointvel name='left_waste_omega' joint='left_waste_joint'/>
+    <jointvel name='rooty_omega' joint='rooty'/>
+    
+  </sensor>
+
+  <actuator>
+    <motor joint = "waste_z" ctrllimited="true" ctrlrange="-1.0 1.0" gear="800" name = "waste_slide"/>
+    <motor joint = "left_waste_z" ctrllimited="true" ctrlrange="-1.0 1.0" gear="800" name = "left_waste_slide"/>
+  </actuator>
+  <tendon>
+  	<spatial name="SF1" width="0.01" stiffness="6000" damping='300'>
+            <site site="s_knee"/>
+            <geom geom="knee_geom"/>
+            <site site="s311"/>
+        </spatial>
+        <spatial name="SF2" width="0.01" stiffness="6000" damping='300'>
+            <site site="s_left_knee"/>
+            <geom geom="left_knee_geom"/>
+            <site site="s611"/>
+        </spatial>
+        <spatial name="SF3" width="0.01" stiffness="6000" damping='650'>
+            <site site="s_tibia"/>
+            <geom geom="tibia_point"/>
+            <site site="s311"/>
+        </spatial>
+        <spatial name="SF4" width="0.01" stiffness="6000" damping='650'>
+            <site site="s_left_tibia"/>
+            <geom geom="left_tibia_point"/>
+            <site site="s611"/>
+        </spatial>
+        <spatial name="SF5" width="0.01" stiffness="10000" >
+            <site site="s_knee"/>
+            <geom geom="knee_geom"/>
+            <site site="s_tibia"/>
+        </spatial>
+        <spatial name="SF6" width="0.01" stiffness="10000" >
+            <site site="s_left_knee"/>
+            <geom geom="left_knee_geom"/>
+            <site site="s_left_tibia"/>
+        </spatial>
+    </tendon>
+    
+</mujoco>
